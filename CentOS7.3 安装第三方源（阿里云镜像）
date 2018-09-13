@@ -15,7 +15,7 @@
 安装elrepo源（清华镜像）
 # rpm -Uvh https://mirrors.tuna.tsinghua.edu.cn/elrepo/extras/el7/x86_64/RPMS/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
 安装Repoforge源（清华镜像）
-浏览器打开：
+浏览器打开：（网站上有这些内容）
 https://mirrors.tuna.tsinghua.edu.cn/help/repoforge/
 手动添加源
 cat > /etc/yum.repos.d/rpmforge.repo << EOF 
