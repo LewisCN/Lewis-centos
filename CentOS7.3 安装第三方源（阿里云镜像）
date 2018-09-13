@@ -1,0 +1,64 @@
+更换CentOS-Base源（阿里云镜像）
+备份文件
+# cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+从阿里云上获取CentOS-Base.repo
+# wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+安装密钥
+# rpm  -import  http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+安装EPEL源（阿里云镜像）
+# rpm -Uvh http://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
+# rpm  -import http://mirrors.aliyun.com/epel/RPM-GPG-KEY-EPEL-7
+# rpm  -import http://mirrors.aliyun.com/epel/RPM-GPG-KEY-EPEL-7Server
+安装 yum-axelget 插件
+安装该插件的同时会安装另一个软件 axel。axel 是一个并行下载工具，在下载 http、ftp 等简单协议的文件时非常好用。
+
+安装elrepo源（清华镜像）
+# rpm -Uvh https://mirrors.tuna.tsinghua.edu.cn/elrepo/extras/el7/x86_64/RPMS/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+安装Repoforge源（清华镜像）
+浏览器打开：
+https://mirrors.tuna.tsinghua.edu.cn/help/repoforge/
+手动添加源
+cat > /etc/yum.repos.d/rpmforge.repo << EOF 
+[rpmforge]
+name = RHEL $releasever - RPMforge.net - dag
+baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/$basearch/rpmforge
+mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge
+enabled = 1
+protect = 0
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag
+gpgcheck = 1
+[rpmforge-extras]
+name = RHEL $releasever - RPMforge.net - extras
+baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/$basearch/extras
+mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge-extras
+enabled = 0
+protect = 0
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag
+gpgcheck = 1
+[rpmforge-testing]
+name = RHEL $releasever - RPMforge.net - testing
+baseurl = https://mirrors.tuna.tsinghua.edu.cn/repoforge/redhat/el7/en/$basearch/testing
+mirrorlist = http://mirrorlist.repoforge.org/el7/mirrors-rpmforge-testing
+enabled = 0
+protect = 0
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-dag
+gpgcheck = 1
+EOF
+# rpm  -import  https://mirrors.tuna.tsinghua.edu.cn/repoforge/RPM-GPG-KEY.dag.txt
+
+=======================================================
+安装Nux Dextop源
+更改centos桌面主题
+此源包含Centos桌面和多媒体应用依赖EPEL源，但Nux Dextop源与Repoforge源有冲突，此源默认设置为关闭状态。
+# rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+# vi  /etc/yum.repos.d/nux-dextop.repo 
+enabled=0
+
+安装应用  例：
+# yum --enablerepo=nux-dextop install  <package-name> 
+======================================================= 安装IUS源（清华镜像）
+# rpm -import https://mirrors.tuna.tsinghua.edu.cn/ius/IUS-COMMUNITY-GPG-KEY
+# rpm -Uvh https://mirrors.tuna.tsinghua.edu.cn/ius/stable/CentOS/7/x86_64/yum-plugin-replace-0.2.7-1.ius.centos7.noarch.rpm
+
+更新缓存
+# yum makecache
